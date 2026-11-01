@@ -1,0 +1,13 @@
+{
+  "tag": "v1.3.0",
+  "commit": "b0010060a939455d91e4f8ba62dc3e72b1892469",
+  "go_image": "golang:1.26.2-bookworm@sha256:47ce5636e9936b2c5cbf708925578ef386b4f8872aec74a67bd13a627d242b19",
+  "source_date_epoch": 1779400183,
+  "patch": "scripts/patches/0001-flowsteward-pgvector-safety.patch",
+  "patch_sha256": "f715b0d159a1667307049b55e110dedc40cf4b6845a60c7f88a389059a43543f",
+  "packages": ["github.com/googleapis/mcp-toolbox/internal/sources/postgres", "github.com/googleapis/mcp-toolbox/internal/tools/postgres/postgressql"],
+  "binaries": {
+    "linux-amd64": {"sha256": "73766745621cfada831e6851b50ebd057cdda1f4626d0286f0df527dc5fe11b9", "size": 29786238},
+    "linux-arm64": {"sha256": "3e7179dffd83f1209f151cf1c9118cf3f118b5d7dd13489277460a7d9127e020", "size": 28049534}
+  }
+}

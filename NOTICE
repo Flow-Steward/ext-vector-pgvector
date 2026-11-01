@@ -1,0 +1,18 @@
+Flow Steward pgvector extension
+Copyright 2026 Flow Steward contributors
+
+This extension packages modified Google MCP Toolbox for Databases v1.3.0,
+commit b0010060a939455d91e4f8ba62dc3e72b1892469.
+Copyright Google LLC, Apache-2.0 (included in LICENSE).
+Source: https://github.com/googleapis/mcp-toolbox
+
+Only PostgreSQL source and postgres-sql tool packages are registered.
+The included patch pins endpoint addresses while preserving verified TLS,
+disables fallback endpoints, limits PostgreSQL messages and connection reads,
+and caps result rows and serialized JSON. Reproducible build pins, patch and
+native provenance accompany this package. PostgreSQL protocol is provided by
+pgx v5.9.2 (MIT), https://github.com/jackc/pgx; dependencies are recorded in the
+pinned upstream go.mod/go.sum and may be inspected using go version -m.
+
+The original connected-node icon is by Flow Steward contributors. PostgreSQL
+and pgvector are independent projects; this extension is unaffiliated.

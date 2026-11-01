@@ -1,0 +1,10 @@
+{
+  "page_id": "connection",
+  "title": "Connections",
+  "description": "Choose the PostgreSQL pgvector database endpoint.",
+  "components": [
+    {
+      "ref": "../components/pgvector_connection_form.yaml"
+    }
+  ]
+}

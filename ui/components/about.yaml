@@ -1,0 +1,6 @@
+{
+  "component_id": "pgvector_about",
+  "type": "markdown",
+  "title": "pgvector",
+  "content": "Store dense vectors and document chunks in PostgreSQL pgvector, manage dimensioned HNSW collections, and query nearest neighbors with source metadata. No triggers. Embeddings are supplied by other workflow steps."
+}

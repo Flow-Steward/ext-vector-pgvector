@@ -1,0 +1,584 @@
+{
+  "actions": [
+    {
+      "action_id": "ensure_collection",
+      "workflow_visible": true,
+      "title": "Ensure Collection",
+      "description": "Create schema, dimensioned chunk table and HNSW index; verify existing dimension and metric. pgvector must already be installed in public.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "dimensions",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "get_collection",
+      "workflow_visible": true,
+      "title": "Get Collection",
+      "description": "Get collection.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "drop_collection",
+      "workflow_visible": true,
+      "title": "Drop Collection",
+      "description": "Drop collection table and indexes with explicit confirmation.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "confirm",
+          "type": "boolean",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "upsert_chunk",
+      "workflow_visible": true,
+      "title": "Upsert Chunk",
+      "description": "Upsert chunk.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "chunk_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "document_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "metadata",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "source",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "vector",
+          "type": "json",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "upsert_document",
+      "workflow_visible": true,
+      "title": "Upsert Document",
+      "description": "Atomically upsert 1 to 100 explicitly identified chunks for a document. Existing omitted chunks are preserved; delete_document removes all document chunks.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "chunks",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "document_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source",
+          "type": "json",
+          "required": false
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "get_chunk",
+      "workflow_visible": true,
+      "title": "Get Chunk",
+      "description": "Get chunk.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "chunk_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "include_vector",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "update_chunk",
+      "workflow_visible": true,
+      "title": "Update Chunk",
+      "description": "Replace supplied content, metadata, source or vector fields by stable chunk ID.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "chunk_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "metadata",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "source",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "vector",
+          "type": "json",
+          "required": false
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "delete_chunk",
+      "workflow_visible": true,
+      "title": "Delete Chunk",
+      "description": "Delete chunk.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "chunk_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "delete_document",
+      "workflow_visible": true,
+      "title": "Delete Document",
+      "description": "Delete document.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "document_id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    },
+    {
+      "action_id": "query",
+      "workflow_visible": true,
+      "title": "Query",
+      "description": "Return bounded nearest chunks with JSON metadata containment filter. Cosine score=1-distance; L2 score=1/(1+distance); inner-product score=dot product.",
+      "required_scopes": [
+        "extension:invoke"
+      ],
+      "handler": {
+        "mode": "extension"
+      },
+      "parameters": [
+        {
+          "name": "connection_ref",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "collection",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "include_vector",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "name": "metadata_filter",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "min_score",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "vector",
+          "type": "json",
+          "required": true
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.applied"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "native_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "index_configuration_mismatch",
+        "invalid_vector"
+      ],
+      "mutates_platform": false
+    }
+  ]
+}
