@@ -1,3 +1,18 @@
+# Legacy standalone pgvector connector
+
+The maintained PostgreSQL extension now includes SQL and pgvector operations in
+one installable package: [Flow-Steward/ext-data-postgres](https://github.com/Flow-Steward/ext-data-postgres).
+Install PostgreSQL version 1.4.0 or later for vector collections, documents,
+chunks and similarity search. No separate Flow Steward pgvector extension is
+required. pgvector must still be installed on the PostgreSQL database server.
+
+This repository and its existing 1.0.0 release are retained as source history.
+The standalone catalog entry has been removed. Use the PostgreSQL project
+connection for new workflows; this repository does not publish further driver
+updates.
+
+## Historical 1.0.0 documentation
+
 # PostgreSQL pgvector for Flow Steward
 
 Standalone `flowsteward.pgvector` 1.0.0, repository `Flow-Steward/ext-vector-pgvector`.
